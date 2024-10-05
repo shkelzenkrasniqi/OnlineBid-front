@@ -23,7 +23,13 @@
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
+        <li *ngIf="authService.isLoggedIn()" class="nav-item">
+          <a class="nav-link text-light">Welcome, {{ authService.getUsername() }}</a>
+        </li>
+        <li *ngIf="authService.isLoggedIn()" class="nav-item">
+          <button class="btn btn-outline-light" (click)="authService.logout(); router.navigate(['/login']);">Logout</button>
+        </li>
+        <li *ngIf="!authService.isLoggedIn()" class="nav-item">
           <a class="btn btn-outline-light fw-bold" routerLink="/login">Login</a>
         </li>
       </ul>
