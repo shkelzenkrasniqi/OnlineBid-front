@@ -1,0 +1,9 @@
+<div class="container">
+  <h2 class="my-4">Available Auctions</h2>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let auction of auctions">
+      <h5>{{ auction.name }}</h5>
+      <p>{{ auction.description }}</p>
+    </li>
+  </ul>
+</div>
