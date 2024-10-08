@@ -1,1 +1,13 @@
-<p>auction-details works!</p>
+<div class="container">
+  <h2 class="my-4">{{ auction?.title }}</h2>
+  <div *ngIf="auction">
+    <p><strong>Description:</strong> {{ auction.description }}</p>
+    <p><strong>Starting Price:</strong> {{ auction.startingPrice}}</p>
+    <p><strong>Current Price:</strong> {{ auction.currentPrice !== null ? (auction.currentPrice | currency) : 'N/A' }}</p>
+    <p><strong>Start Date:</strong> {{ auction.startDate | date:'medium' }}</p>
+    <p><strong>End Date:</strong> {{ auction.endDate | date:'medium' }}</p>
+    <p><strong>Category:</strong> {{ auction.category }}</p>
+    <p><strong>Status:</strong> {{ auction.isActive ? 'Active' : 'Inactive' }}</p>
+  </div>
+  <button class="btn btn-primary" (click)="router.navigate(['/auctions'])">Back to Auctions</button>
+</div>

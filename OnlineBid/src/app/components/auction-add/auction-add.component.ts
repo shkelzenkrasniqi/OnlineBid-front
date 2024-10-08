@@ -29,21 +29,21 @@ export class AuctionAddComponent{
   constructor(public authService: AuthService, public auctionService: AuctionService, public router: Router) {}
 
   ngOnInit(): void {
-    this.userId = this.authService.getUserId();  // Get user ID from AuthService
+    this.userId = this.authService.getUserId();
     if (this.userId) {
-      this.auction.userId = this.userId;  // If userId is found, assign it
+      this.auction.userId = this.userId;
     } else {
-      console.error('User ID not found');  // Handle case when userId is null
+      console.error('User ID not found');
     }
   }
 
   addAuction() {
     this.auctionService.addAuction(this.auction).subscribe(response => {
       console.log('Auction added successfully');
-      this.router.navigate(['/auctions']);  // Navigate to auctions page after success
+      this.router.navigate(['/auctions']);
     }, error => {
       console.error('Error adding auction:', error);
-      console.log('Full error response:', error);  // Log the full error object
+      console.log('Full error response:', error);
     });
   }
 }

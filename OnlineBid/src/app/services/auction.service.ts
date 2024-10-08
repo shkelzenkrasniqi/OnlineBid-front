@@ -15,7 +15,7 @@ export class AuctionService {
     return this.http.get(`${this.baseUrl}`);
   }
 
-  getAuctionById(id: number): Observable<any> {
+  getAuctionById(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
