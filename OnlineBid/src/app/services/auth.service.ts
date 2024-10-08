@@ -51,7 +51,14 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('authToken');
   }
-
+  getUserId(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const payload = this.decodeToken(token);
+      return payload ? payload.nameid : null;
+    }
+    return null;
+  }
   getUsername(): string | null {
     const token = this.getToken();
     if (token) {
