@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuctionService } from '../../services/auction.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BidService } from '../../services/bid.service';
 
 interface Auction {
   id: string;
@@ -26,11 +27,13 @@ interface Auction {
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction | null = null;
   auctionId: string | null = null;
+  bids: any[] = [];
 
   constructor(
     public auctionService: AuctionService,
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public bidService: BidService
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +41,22 @@ export class AuctionDetailsComponent implements OnInit {
       this.auctionId = params.get('id');
       if (this.auctionId) {
         this.fetchAuctionDetails(this.auctionId);
+        this.fetchExistingBids(this.auctionId);
       }
     });
+    this.subscribeToBids();
   }
 
+  fetchExistingBids(auctionId: string): void {
+    this.bidService.getBidsForAuction(auctionId).subscribe(
+      (existingBids: any[]) => {
+        this.bids = existingBids;
+      },
+      error => {
+        console.error('Error fetching existing bids:', error);
+      }
+    );
+  }
   fetchAuctionDetails(id: string): void {
     this.auctionService.getAuctionById(id).subscribe(
       (auction: Auction) => {
@@ -53,4 +68,16 @@ export class AuctionDetailsComponent implements OnInit {
       }
     );
   }
+
+  private subscribeToBids() {
+    this.bidService.bids$.subscribe((newBids) => {
+      console.log("Bids updated:", newBids);
+      if (newBids && newBids.length > 0) {
+        this.bids = newBids;
+      } else {
+        console.log('No bids received or bids list is empty');
+      }
+    });
+  }
+
 }

@@ -9,5 +9,13 @@
     <p><strong>Category:</strong> {{ auction.category }}</p>
     <p><strong>Status:</strong> {{ auction.isActive ? 'Active' : 'Inactive' }}</p>
   </div>
+  <div>
+    <h3>Live Bids</h3>
+    <ul>
+      <li *ngFor="let bid of bids">
+        {{ bid.userId }} placed a bid of ${{ bid.amount }} for auction {{ bid.auctionId }}
+      </li>
+    </ul>
+  </div>
   <button class="btn btn-primary" (click)="router.navigate(['/auctions'])">Back to Auctions</button>
 </div>
