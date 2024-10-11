@@ -2,14 +2,23 @@
   <h2 class="my-4">Available Auctions</h2>
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let auction of auctions">
-      <h5>{{ auction.title }}</h5>
-      <p>{{ auction.description }}</p>
-      <button
-        class="btn btn-primary"
-        [routerLink]="['/auctions', auction.id]"
-      >
-        View Details
-      </button>
+      <div class="d-flex align-items-center">
+        <!-- Use the photoData directly from the first photo -->
+        <div *ngIf="auction.photos && auction.photos.length > 0" class="me-3">
+          <img
+            [src]="'data:' + auction.photos[0].contentType + ';base64,' + auction.photos[0].photoData"
+            alt="{{ auction.title }}"
+            class="img-thumbnail"
+            style="max-width: 150px; max-height: 150px;">
+        </div>
+        <div>
+          <h5>{{ auction.title }}</h5>
+          <p>{{ auction.description }}</p>
+          <button class="btn btn-primary" [routerLink]="['/auctions', auction.id]">
+            View Details
+          </button>
+        </div>
+      </div>
     </li>
   </ul>
 </div>

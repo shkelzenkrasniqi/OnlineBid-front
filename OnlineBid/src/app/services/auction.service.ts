@@ -19,7 +19,7 @@ export class AuctionService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  addAuction(auction: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, auction);
+  addAuction(auctionData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, auctionData);
   }
 }

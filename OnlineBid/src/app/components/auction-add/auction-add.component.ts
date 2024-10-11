@@ -22,6 +22,7 @@ export class AuctionAddComponent{
     userId: '',
     category: 1
   };
+  selectedFiles: File[] = [];
 
   userId: string | null = null;
 
@@ -37,13 +38,38 @@ export class AuctionAddComponent{
     }
   }
 
-  addAuction() {
-    this.auctionService.addAuction(this.auction).subscribe(response => {
-      console.log('Auction added successfully');
-      this.router.navigate(['/auctions']);
-    }, error => {
-      console.error('Error adding auction:', error);
-      console.log('Full error response:', error);
-    });
+  onFileSelected(event: any): void {
+    this.selectedFiles = Array.from(event.target.files);
+    console.log(this.selectedFiles);
+  }
+
+  addAuction(): void {
+    const formData = new FormData();
+    formData.append('title', this.auction.title);
+    formData.append('description', this.auction.description);
+    formData.append('startingPrice', this.auction.startingPrice.toString());
+    formData.append('startDate', this.auction.startDate);
+    formData.append('endDate', this.auction.endDate);
+    formData.append('userId', this.auction.userId);
+    formData.append('category', this.auction.category.toString());
+
+    // Append images to FormData
+    if (this.selectedFiles && this.selectedFiles.length > 0) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+          formData.append('photos', this.selectedFiles[i], this.selectedFiles[i].name);
+      }
+  }
+
+
+    this.auctionService.addAuction(formData).subscribe(
+      response => {
+        console.log('Auction added successfully');
+        this.router.navigate(['/auctions']);
+      },
+      error => {
+        console.error('Error adding auction:', error);
+        console.log('Full error response:', error);
+      }
+    );
   }
 }

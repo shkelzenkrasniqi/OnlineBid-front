@@ -21,7 +21,18 @@
       <label for="endDate" class="form-label">End Date</label>
       <input type="datetime-local" id="endDate" [(ngModel)]="auction.endDate" name="endDate" class="form-control" required>
     </div>
+    <div>
+      <label>Category</label>
+      <select [(ngModel)]="auction.category" name="category" required>
+        <option value="1">Electronics</option>
+        <option value="2">Furniture</option>
+      </select>
+    </div>
 
+    <div>
+      <label>Upload Images</label>
+      <input type="file" (change)="onFileSelected($event)" multiple>
+    </div>
     <button type="submit" class="btn btn-primary">Add Auction</button>
   </form>
 </div>

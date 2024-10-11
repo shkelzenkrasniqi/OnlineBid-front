@@ -1,37 +1,26 @@
 import { Component } from '@angular/core';
 import { AuctionService } from '../../services/auction.service';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
-export interface Auction {
-  id: string;
-  title: string;
-  description: string;
-  startingPrice: number;
-  startDate: Date;
-  endDate: Date;
-  currentPrice?: number;
-  isActive: boolean;
-  userId: string;
-  category: string;
-}
+
 @Component({
   selector: 'app-auction-list',
   standalone: true,
-  imports: [NgFor,RouterModule],
+  imports: [NgFor, RouterModule,NgIf],
   templateUrl: './auction-list.component.html',
-  styleUrl: './auction-list.component.scss'
+  styleUrls: ['./auction-list.component.scss'] // Fix the typo here
 })
 
 export class AuctionListComponent {
 
-  auctions: Auction[] = [];
+  auctions: any[] = [];
 
   constructor(private auctionService: AuctionService) { }
 
   ngOnInit(): void {
     this.auctionService.getAuctions().subscribe(data => {
       this.auctions = data;
+      console.log('Auctions data:', this.auctions); // Check the loaded data in the console
     });
   }
-
 }
