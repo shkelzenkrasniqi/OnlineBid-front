@@ -3,6 +3,8 @@ import { AuctionService } from '../../services/auction.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BidService } from '../../services/bid.service';
+import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 interface Auction {
   id: string;
@@ -18,11 +20,16 @@ interface Auction {
   photos?: Array<{ contentType: string, photoData: string }>;
 
 }
-
+interface Bid {
+  userId: string;
+  amount: number;
+  auctionId: string;
+  bidTime: Date;
+}
 @Component({
   selector: 'app-auction-details',
   standalone: true,
-  imports: [CommonModule,RouterOutlet],
+  imports: [CommonModule,RouterOutlet,FormsModule],
   templateUrl: './auction-details.component.html',
   styleUrls: ['./auction-details.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -32,11 +39,14 @@ export class AuctionDetailsComponent implements OnInit {
   auctionId: string | null = null;
   bids: any[] = [];
   currentImageIndex = 0;
+  newBidAmount: number = 0;
+  userId: string | null = null;
 
   constructor(
     public auctionService: AuctionService,
     public route: ActivatedRoute,
     public router: Router,
+    public authService: AuthService,
     public bidService: BidService
   ) {}
 
@@ -48,6 +58,10 @@ export class AuctionDetailsComponent implements OnInit {
         this.fetchExistingBids(this.auctionId);
       }
     });
+    this.userId = this.authService.getUserId();
+    if (!this.userId) {
+      console.error('User ID not found');
+    }
     this.subscribeToBids();
   }
 
@@ -83,5 +97,27 @@ export class AuctionDetailsComponent implements OnInit {
       }
     });
   }
+  placeBid(): void {
+    if (!this.auction || !this.userId) {
+      console.error('Cannot place bid without auction or user ID');
+      return;
+    }
 
+    const newBid: Bid = {
+      auctionId: this.auction.id,
+      amount: this.newBidAmount,
+      userId: this.userId,
+      bidTime: new Date()
+    };
+
+    this.bidService.placeBid(newBid).subscribe(
+      (response) => {
+        this.bids.push(response);
+        this.newBidAmount = 0;
+      },
+      error => {
+        console.error('Error placing bid:', error);
+      }
+    );
+  }
 }

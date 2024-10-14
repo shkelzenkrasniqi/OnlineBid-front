@@ -28,6 +28,23 @@
     <p><strong>Category:</strong> {{ auction.category }}</p>
     <p><strong>Status:</strong> {{ auction.isActive ? 'Active' : 'Inactive' }}</p>
   </div>
+  <div class="bid-form mt-4">
+    <h4>Place a New Bid</h4>
+    <form (submit)="placeBid()">
+      <div class="form-group">
+        <label for="bidAmount">Bid Amount:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="bidAmount"
+          [(ngModel)]="newBidAmount"
+          name="bidAmount"
+          required
+          min="{{ auction?.currentPrice ?? auction?.startingPrice }}" />
+      </div>
+      <button type="submit" class="btn btn-primary">Place Bid</button>
+    </form>
+  </div>
   <div>
     <h3>Live Bids</h3>
     <ul>
