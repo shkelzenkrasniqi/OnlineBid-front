@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { AuctionService } from '../../services/auction.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BidService } from '../../services/bid.service';
 
@@ -15,19 +15,23 @@ interface Auction {
   isActive: boolean;
   userId: string;
   category: string;
+  photos?: Array<{ contentType: string, photoData: string }>;
+
 }
 
 @Component({
   selector: 'app-auction-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterOutlet],
   templateUrl: './auction-details.component.html',
-  styleUrls: ['./auction-details.component.scss']
+  styleUrls: ['./auction-details.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuctionDetailsComponent implements OnInit {
   auction: Auction | null = null;
   auctionId: string | null = null;
   bids: any[] = [];
+  currentImageIndex = 0;
 
   constructor(
     public auctionService: AuctionService,

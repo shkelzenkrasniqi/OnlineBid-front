@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf,RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [NgFor, RouterModule,NgIf],
   templateUrl: './auction-list.component.html',
-  styleUrls: ['./auction-list.component.scss'] // Fix the typo here
+  styleUrls: ['./auction-list.component.scss']
 })
 
 export class AuctionListComponent {
@@ -20,7 +20,6 @@ export class AuctionListComponent {
   ngOnInit(): void {
     this.auctionService.getAuctions().subscribe(data => {
       this.auctions = data;
-      console.log('Auctions data:', this.auctions); // Check the loaded data in the console
     });
   }
 }
