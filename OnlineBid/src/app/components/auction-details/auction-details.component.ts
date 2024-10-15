@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { BidService } from '../../services/bid.service';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { TimeLeftPipe } from '../../time-left.pipe';
 
 interface Auction {
   id: string;
@@ -18,7 +19,6 @@ interface Auction {
   userId: string;
   category: string;
   photos?: Array<{ contentType: string, photoData: string }>;
-
 }
 interface Bid {
   userId: string;
@@ -29,7 +29,7 @@ interface Bid {
 @Component({
   selector: 'app-auction-details',
   standalone: true,
-  imports: [CommonModule,RouterOutlet,FormsModule],
+  imports: [CommonModule,RouterOutlet,FormsModule,TimeLeftPipe],
   templateUrl: './auction-details.component.html',
   styleUrls: ['./auction-details.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

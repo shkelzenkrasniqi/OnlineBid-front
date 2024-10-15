@@ -20,6 +20,7 @@
   </div>
   <h2 class="my-4">{{ auction?.title }}</h2>
   <div *ngIf="auction">
+    <p><strong>Time Left:</strong> {{ auction?.endDate ?? null | timeLeft }}</p>
     <p><strong>Description:</strong> {{ auction.description }}</p>
     <p><strong>Starting Price:</strong> {{ auction.startingPrice}}</p>
     <p><strong>Current Price:</strong> {{ auction.currentPrice !== null ? (auction.currentPrice | currency) : 'N/A' }}</p>
@@ -49,7 +50,7 @@
     <h3>Live Bids</h3>
     <ul>
       <li *ngFor="let bid of bids">
-        {{ bid.userId }} placed a bid of ${{ bid.amount }} for auction {{ bid.auctionId }}
+        {{ bid.userName }} placed a bid of ${{ bid.amount }} at {{ bid.bidTime | date:'medium' }}
       </li>
     </ul>
   </div>
