@@ -3,7 +3,7 @@ import { AuctionService } from '../../services/auction.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BidService } from '../../services/bid.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { TimeLeftPipe } from '../../time-left.pipe';
 

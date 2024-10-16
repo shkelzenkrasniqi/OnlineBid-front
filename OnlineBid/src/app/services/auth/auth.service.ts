@@ -90,4 +90,13 @@ export class AuthService {
     }
     return throwError(() => new Error(errorMessage));
   }
+  getUserRoles(): string[] {
+    const token = this.getToken();
+    if (token) {
+      const payload = this.decodeToken(token);
+      return payload ? payload.role || [] : [];
+    }
+    return [];
+  }
+
 }
