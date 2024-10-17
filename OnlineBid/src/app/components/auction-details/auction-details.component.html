@@ -20,7 +20,7 @@
   </div>
   <h2 class="my-4">{{ auction?.title }}</h2>
   <div *ngIf="auction">
-    <p><strong>Time Left:</strong> {{ auction?.endDate ?? null | timeLeft }}</p>
+    <p><strong>Time Left:</strong> {{ auction.endDate | timeLeft }}</p>
     <p><strong>Description:</strong> {{ auction.description }}</p>
     <p><strong>Starting Price:</strong> {{ auction.startingPrice}}</p>
     <p><strong>Current Price:</strong> {{ auction.currentPrice !== null ? (auction.currentPrice | currency) : 'N/A' }}</p>
@@ -31,20 +31,28 @@
   </div>
   <div class="bid-form mt-4">
     <h4>Place a New Bid</h4>
-    <form (submit)="placeBid()">
-      <div class="form-group">
-        <label for="bidAmount">Bid Amount:</label>
-        <input
-          type="number"
-          class="form-control"
-          id="bidAmount"
-          [(ngModel)]="newBidAmount"
-          name="bidAmount"
-          required
-          min="{{ auction?.currentPrice ?? auction?.startingPrice }}" />
-      </div>
-      <button type="submit" class="btn btn-primary">Place Bid</button>
-    </form>
+<form (ngSubmit)="placeBid()" #bidForm="ngForm">
+  <div class="form-group">
+    <label for="bidAmount">Bid Amount:</label>
+    <input
+      type="number"
+      class="form-control"
+      id="bidAmount"
+      [(ngModel)]="newBidAmount"
+      name="bidAmount"
+      required
+      min="{{ auction?.currentPrice ?? auction?.startingPrice }}"
+      #bidAmount="ngModel" />
+
+    <div *ngIf="bidAmount.invalid && bidAmount.touched" class="text-danger">
+      <div *ngIf="bidAmount.errors?.['required']">Bid amount is required.</div>
+      <div *ngIf="bidAmount.errors?.['min']">Bid must be at least {{ auction?.currentPrice ?? auction?.startingPrice }}.</div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="bidForm.invalid">Place Bid</button>
+</form>
+
   </div>
   <div>
     <h3>Live Bids</h3>

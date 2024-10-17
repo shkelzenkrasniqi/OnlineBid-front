@@ -20,7 +20,7 @@ export class AuctionAddComponent{
     startDate: '',
     endDate: '',
     userId: '',
-    category: 1
+    category: ''
   };
   selectedFiles: File[] = [];
 

@@ -1,36 +1,95 @@
 <div class="register-container">
   <div class="register-box">
     <h2 class="text-center">Register</h2>
-    <form (ngSubmit)="register()">
+    <form #registerForm="ngForm" (ngSubmit)="register()" novalidate>
       <div class="form-row">
+        <!-- First Name -->
         <div class="form-group">
           <label for="firstname" class="form-label">First Name</label>
-          <input type="text" id="firstname" [(ngModel)]="user.firstname" name="firstname" class="form-control" required>
+          <input
+            type="text"
+            id="firstname"
+            [(ngModel)]="user.firstname"
+            name="firstname"
+            class="form-control"
+            required
+            #firstname="ngModel">
+          <div *ngIf="firstname.invalid && firstname.touched" class="text-danger">
+            First name is required.
+          </div>
         </div>
 
+        <!-- Last Name -->
         <div class="form-group">
           <label for="lastname" class="form-label">Last Name</label>
-          <input type="text" id="lastname" [(ngModel)]="user.lastname" name="lastname" class="form-control" required>
+          <input
+            type="text"
+            id="lastname"
+            [(ngModel)]="user.lastname"
+            name="lastname"
+            class="form-control"
+            required
+            #lastname="ngModel">
+          <div *ngIf="lastname.invalid && lastname.touched" class="text-danger">
+            Last name is required.
+          </div>
         </div>
       </div>
 
+      <!-- Username -->
       <div class="form-group">
         <label for="username" class="form-label">Username</label>
-        <input type="text" id="username" [(ngModel)]="user.username" name="username" class="form-control" required>
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="user.username"
+          name="username"
+          class="form-control"
+          required
+          #username="ngModel">
+        <div *ngIf="username.invalid && username.touched" class="text-danger">
+          Username is required.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="email" class="form-label">Email</label>
-        <input type="email" id="email" [(ngModel)]="user.email" name="email" class="form-control" required>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="user.email"
+          name="email"
+          class="form-control"
+          required
+          #email="ngModel">
+        <div *ngIf="email.invalid && email.touched" class="text-danger">
+          <div *ngIf="email.errors?.['required']">Email is required.</div>
+          <div *ngIf="email.errors?.['email']">Please provide a valid email.</div>
+        </div>
       </div>
 
+
+
+      <!-- Password -->
       <div class="form-group">
         <label for="password" class="form-label">Password</label>
-        <input type="password" id="password" [(ngModel)]="user.password" name="password" class="form-control" required>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="user.password"
+          name="password"
+          class="form-control"
+          required
+          (ngModelChange)="isPasswordValid(user.password)">
+        <div *ngIf="!isPasswordValid(user.password) && user.password" class="text-danger">
+          Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+
+      <button type="submit" class="btn btn-primary w-100 mt-3" [disabled]="registerForm.invalid">Register</button>
     </form>
+
     <div class="mt-3 text-center">
       <p>Already have an account? <a routerLink="/login" class="link-primary">Login here</a>.</p>
     </div>

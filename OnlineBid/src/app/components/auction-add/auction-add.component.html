@@ -1,38 +1,107 @@
 <div class="container">
   <h2 class="my-4">Add New Auction</h2>
-  <form (ngSubmit)="addAuction()">
+  <form #auctionForm="ngForm" (ngSubmit)="addAuction()" novalidate>
     <div class="mb-3">
       <label for="title" class="form-label">Auction Title</label>
-      <input type="text" id="title" [(ngModel)]="auction.title" name="title" class="form-control" required>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="auction.title"
+        name="title"
+        class="form-control"
+        required
+        [class.is-invalid]="auctionForm.submitted && auctionForm.controls['title'].invalid"
+        [class.is-valid]="auctionForm.submitted && auctionForm.controls['title'].valid">
+      <div *ngIf="auctionForm.submitted && auctionForm.controls['title'].invalid" class="invalid-feedback">
+        Auction title is required.
+      </div>
     </div>
+
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
-      <textarea id="description" [(ngModel)]="auction.description" name="description" class="form-control" required></textarea>
+      <textarea
+        id="description"
+        [(ngModel)]="auction.description"
+        name="description"
+        class="form-control"
+        required
+        [class.is-invalid]="auctionForm.submitted && auctionForm.controls['description'].invalid"
+        [class.is-valid]="auctionForm.submitted && auctionForm.controls['description'].valid"></textarea>
+      <div *ngIf="auctionForm.submitted && auctionForm.controls['description'].invalid" class="invalid-feedback">
+        Description is required.
+      </div>
     </div>
+
     <div class="mb-3">
       <label for="startingPrice" class="form-label">Starting Price</label>
-      <input type="number" id="startingPrice" [(ngModel)]="auction.startingPrice" name="startingPrice" class="form-control" required>
+      <input
+        type="number"
+        id="startingPrice"
+        [(ngModel)]="auction.startingPrice"
+        name="startingPrice"
+        class="form-control"
+        required
+        [class.is-invalid]="auctionForm.submitted && auctionForm.controls['startingPrice'].invalid"
+        [class.is-valid]="auctionForm.submitted && auctionForm.controls['startingPrice'].valid">
+      <div *ngIf="auctionForm.submitted && auctionForm.controls['startingPrice'].invalid" class="invalid-feedback">
+        Starting price is required.
+      </div>
     </div>
+
     <div class="mb-3">
       <label for="startDate" class="form-label">Start Date</label>
-      <input type="datetime-local" id="startDate" [(ngModel)]="auction.startDate" name="startDate" class="form-control" required>
+      <input
+        type="datetime-local"
+        id="startDate"
+        [(ngModel)]="auction.startDate"
+        name="startDate"
+        class="form-control"
+        required
+        [class.is-invalid]="auctionForm.submitted && auctionForm.controls['startDate'].invalid"
+        [class.is-valid]="auctionForm.submitted && auctionForm.controls['startDate'].valid">
+      <div *ngIf="auctionForm.submitted && auctionForm.controls['startDate'].invalid" class="invalid-feedback">
+        Start date is required.
+      </div>
     </div>
+
     <div class="mb-3">
       <label for="endDate" class="form-label">End Date</label>
-      <input type="datetime-local" id="endDate" [(ngModel)]="auction.endDate" name="endDate" class="form-control" required>
+      <input
+        type="datetime-local"
+        id="endDate"
+        [(ngModel)]="auction.endDate"
+        name="endDate"
+        class="form-control"
+        required
+        [class.is-invalid]="auctionForm.submitted && auctionForm.controls['endDate'].invalid"
+        [class.is-valid]="auctionForm.submitted && auctionForm.controls['endDate'].valid">
+      <div *ngIf="auctionForm.submitted && auctionForm.controls['endDate'].invalid" class="invalid-feedback">
+        End date is required.
+      </div>
     </div>
-    <div>
+
+    <div class="mb-3">
       <label>Category</label>
-      <select [(ngModel)]="auction.category" name="category" required>
+      <select
+        [(ngModel)]="auction.category"
+        name="category"
+        class="form-select"
+        required
+        [class.is-invalid]="auctionForm.submitted && auctionForm.controls['category'].invalid"
+        [class.is-valid]="auctionForm.submitted && auctionForm.controls['category'].valid">
         <option value="1">Electronics</option>
         <option value="2">Furniture</option>
       </select>
+      <div *ngIf="auctionForm.submitted && auctionForm.controls['category'].invalid" class="invalid-feedback">
+        Please select a category.
+      </div>
     </div>
 
-    <div>
-      <label>Upload Images</label>
-      <input type="file" (change)="onFileSelected($event)" multiple>
+    <div class="mb-3">
+      <label for="images" class="form-label">Upload Images</label>
+      <input type="file" id="images" (change)="onFileSelected($event)" multiple class="form-control">
     </div>
+
     <button type="submit" class="btn btn-primary">Add Auction</button>
   </form>
 </div>
