@@ -6,6 +6,8 @@ import { BidService } from '../../services/bid.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { TimeLeftPipe } from '../../time-left.pipe';
+import { ToastrService } from 'ngx-toastr';
+
 
 interface Auction {
   id: string;
@@ -47,7 +49,8 @@ export class AuctionDetailsComponent implements OnInit {
     public route: ActivatedRoute,
     public router: Router,
     public authService: AuthService,
-    public bidService: BidService
+    public bidService: BidService,
+    public toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -113,10 +116,10 @@ export class AuctionDetailsComponent implements OnInit {
     this.bidService.placeBid(newBid).subscribe(
       (response) => {
         this.bids.push(response);
-        this.newBidAmount = 0;
-      },
-      error => {
-        console.error('Error placing bid:', error);
+          this.toastr.success('You placed your bid successfully!');
+             },
+      () => {
+        this.toastr.error('You did not place a bid! Try again.');
       }
     );
   }

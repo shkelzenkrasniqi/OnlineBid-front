@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-auction-add',
@@ -27,7 +28,7 @@ export class AuctionAddComponent{
   userId: string | null = null;
 
 
-  constructor(public authService: AuthService, public auctionService: AuctionService, public router: Router) {}
+  constructor(public authService: AuthService, public auctionService: AuctionService, public router: Router,public toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
@@ -40,7 +41,6 @@ export class AuctionAddComponent{
 
   onFileSelected(event: any): void {
     this.selectedFiles = Array.from(event.target.files);
-    console.log(this.selectedFiles);
   }
 
   addAuction(): void {
@@ -53,7 +53,6 @@ export class AuctionAddComponent{
     formData.append('userId', this.auction.userId);
     formData.append('category', this.auction.category.toString());
 
-    // Append images to FormData
     if (this.selectedFiles && this.selectedFiles.length > 0) {
       for (let i = 0; i < this.selectedFiles.length; i++) {
           formData.append('photos', this.selectedFiles[i], this.selectedFiles[i].name);
@@ -63,12 +62,10 @@ export class AuctionAddComponent{
 
     this.auctionService.addAuction(formData).subscribe(
       response => {
-        console.log('Auction added successfully');
+        this.toastr.success('Auction Item Added Successfully');
         this.router.navigate(['/auctions']);
       },
-      error => {
-        console.error('Error adding auction:', error);
-        console.log('Full error response:', error);
+      () => {    this.toastr.error('You did not add an Auction Item! Try Again');
       }
     );
   }
