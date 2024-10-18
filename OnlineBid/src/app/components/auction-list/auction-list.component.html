@@ -1,24 +1,46 @@
 <div class="container">
-  <h2 class="my-4">Available Auctions</h2>
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let auction of auctions">
-      <div class="d-flex align-items-center">
-        <!-- Use the photoData directly from the first photo -->
-        <div *ngIf="auction.photos && auction.photos.length > 0" class="me-3">
+  <h2 class="my-4 text-center">Available Auctions</h2>
+  <div class="row">
+    <div *ngFor="let auction of auctions" class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div *ngIf="auction.photos && auction.photos.length > 0">
           <img
             [src]="'data:' + auction.photos[0].contentType + ';base64,' + auction.photos[0].photoData"
             alt="{{ auction.title }}"
-            class="img-thumbnail"
-            style="max-width: 150px; max-height: 150px;">
+            class="card-img-top"
+            style="max-height: 200px; object-fit: contain;">
         </div>
-        <div>
-          <h5>{{ auction.title }}</h5>
-          <p>{{ auction.description }}</p>
-          <button class="btn btn-primary" [routerLink]="['/auctions', auction.id]">
+        <div class="card-body">
+          <h5 class="card-title text-center" style="font-size: 1.5rem; font-weight: bold;">
+            {{ auction.title }}
+          </h5>
+
+          <div class="d-flex justify-content-between">
+            <p><strong>Starting Price:</strong> ${{ auction.startingPrice }}</p>
+            <p *ngIf="auction.currentPrice"><strong>Current Price:</strong> ${{ auction.currentPrice }}</p>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <p><strong>Start Date:</strong> {{ auction.startDate | date:'mediumDate' }}</p>
+            <p><strong>End Date:</strong> {{ auction.endDate | date:'mediumDate' }}</p>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <p class="mb-0"><strong>Time Left:</strong> {{ auction.endDate | timeLeft }}</p>
+
+            <span [ngClass]="auction.isActive ? 'badge bg-success' : 'badge bg-danger'"
+              class="status-box px-3 py-2" style="border-radius: 20px; font-size: 1rem;">
+              {{ auction.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-primary w-100" [routerLink]="['/auctions', auction.id]">
             View Details
           </button>
         </div>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>
