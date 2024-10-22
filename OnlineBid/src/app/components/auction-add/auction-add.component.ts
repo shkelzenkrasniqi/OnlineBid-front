@@ -1,10 +1,11 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuctionService } from '../../services/auction.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { CategoryService } from '../../services/category.service';
 import { Router } from '@angular/router';
-import { CommonModule, NgFor } from '@angular/common';
-import { FormsModule, NgModel } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-auction-add',
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './auction-add.component.html',
   styleUrl: './auction-add.component.scss'
 })
-export class AuctionAddComponent{
+export class AuctionAddComponent implements OnInit {
   auction = {
     title: '',
     description: '',
@@ -21,14 +22,20 @@ export class AuctionAddComponent{
     startDate: '',
     endDate: '',
     userId: '',
-    category: ''
+    categoryId: ''
   };
+  categories: any[] = [];
   selectedFiles: File[] = [];
 
   userId: string | null = null;
 
-
-  constructor(public authService: AuthService, public auctionService: AuctionService, public router: Router,public toastr: ToastrService) {}
+  constructor(
+    public authService: AuthService,
+    public auctionService: AuctionService,
+    public categoryService: CategoryService,
+    public router: Router,
+    public toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
@@ -37,6 +44,15 @@ export class AuctionAddComponent{
     } else {
       console.error('User ID not found');
     }
+
+    this.categoryService.getCategories().subscribe(
+      (data) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
   }
 
   onFileSelected(event: any): void {
@@ -51,21 +67,21 @@ export class AuctionAddComponent{
     formData.append('startDate', this.auction.startDate);
     formData.append('endDate', this.auction.endDate);
     formData.append('userId', this.auction.userId);
-    formData.append('category', this.auction.category.toString());
+    formData.append('categoryId', this.auction.categoryId);
 
     if (this.selectedFiles && this.selectedFiles.length > 0) {
       for (let i = 0; i < this.selectedFiles.length; i++) {
-          formData.append('photos', this.selectedFiles[i], this.selectedFiles[i].name);
+        formData.append('photos', this.selectedFiles[i], this.selectedFiles[i].name);
       }
-  }
-
+    }
 
     this.auctionService.addAuction(formData).subscribe(
       response => {
         this.toastr.success('Auction Item Added Successfully');
         this.router.navigate(['/auctions']);
       },
-      () => {    this.toastr.error('You did not add an Auction Item! Try Again');
+      () => {
+        this.toastr.error('You did not add an Auction Item! Try Again');
       }
     );
   }

@@ -83,14 +83,13 @@
     <div class="mb-3">
       <label>Category</label>
       <select
-        [(ngModel)]="auction.category"
+        [(ngModel)]="auction.categoryId"
         name="category"
         class="form-select"
         required
         [class.is-invalid]="auctionForm.submitted && auctionForm.controls['category'].invalid"
         [class.is-valid]="auctionForm.submitted && auctionForm.controls['category'].valid">
-        <option value="1">Electronics</option>
-        <option value="2">Furniture</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
       </select>
       <div *ngIf="auctionForm.submitted && auctionForm.controls['category'].invalid" class="invalid-feedback">
         Please select a category.

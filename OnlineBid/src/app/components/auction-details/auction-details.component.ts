@@ -19,7 +19,7 @@ interface Auction {
   currentPrice?: number | null;
   isActive: boolean;
   userId: string;
-  category: string;
+  categoryName: string;
   photos?: Array<{ contentType: string, photoData: string }>;
 }
 interface Bid {

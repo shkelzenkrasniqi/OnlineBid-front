@@ -29,7 +29,7 @@
         <p><strong>Current Price:</strong> {{ auction.currentPrice !== null ? (auction.currentPrice | currency) : 'N/A' }}</p>
         <p><strong>Start Date:</strong> {{ auction.startDate | date:'medium' }}</p>
         <p><strong>End Date:</strong> {{ auction.endDate | date:'medium' }}</p>
-        <p><strong>Category:</strong> {{ auction.category }}</p>
+        <p><strong>Category:</strong> {{ auction.categoryName }}</p>
         <p>
           <strong>Status:</strong>
           <span [ngClass]="auction.isActive ? 'badge bg-success' : 'badge bg-danger'" class="px-3 py-2" style="border-radius: 20px;">
