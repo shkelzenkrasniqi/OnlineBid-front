@@ -6,8 +6,10 @@ import { AuctionAddComponent } from './components/auction-add/auction-add.compon
 import { AuctionDetailsComponent } from './components/auction-details/auction-details.component';
 import { AuthGuardService } from './services/auth/auth.guard.service';
 import { AdminComponent } from './components/admin/admin.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 
 export const routes: Routes = [
+  { path: '', component: HomepageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'auctions', component: AuctionListComponent },

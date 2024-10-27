@@ -1,0 +1,77 @@
+<div class="homepage">
+
+  <section class="hero text-center text-white py-5">
+    <div class="container">
+      <h1 class="text-dark">Welcome to Auction House</h1>
+      <p class="lead text-dark">Find incredible deals, rare collectibles, and more!</p>
+      <a routerLink="/auctions" class="btn btn-primary btn-lg mt-3">Explore Auctions</a>
+    </div>
+  </section>
+
+<section class="featured-auctions my-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Latest Auctions</h2>
+    <swiper-container [slidesPerView]="2" [navigation]="true" [pagination]="true" class="mySwiper">
+      <swiper-slide *ngFor="let auction of auctions">
+        <div class="card mb-4 shadow-sm">
+          <img
+            *ngIf="auction.photos && auction.photos.length > 0"
+            [src]="'data:' + auction.photos[0].contentType + ';base64,' + auction.photos[0].photoData"
+            class="card-img-top"
+            alt="{{ auction.title }}"
+            style="max-height: 200px; object-fit: cover;"
+          />
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ auction.title }}</h5>
+            <p class="card-text">{{ auction.description | slice: 0:100 }}...</p>
+            <p><strong>Current Price:</strong> {{ auction.currentPrice | currency }}</p>
+            <a [routerLink]="['/auctions', auction.id]" class="btn btn-outline-primary btn-sm">View Details</a>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+</section>
+
+  <section class="categories py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">Browse by Category</h2>
+      <div class="row text-center">
+        <div class="col-md-3" *ngFor="let category of categories">
+          <div class="category-card p-3 shadow-sm">
+            <a [routerLink]="['/categories', category]" class="text-decoration-none text-dark">
+              <h5>{{ category }}</h5>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works my-5">
+    <div class="container">
+      <h2 class="text-center mb-4">How It Works</h2>
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h3>1. Register</h3>
+          <p>Create an account to start bidding and selling.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <h3>2. Browse Auctions</h3>
+          <p>Explore auctions and place bids on items you love.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <h3>3. Win</h3>
+          <p>Win auctions and get your items delivered to you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="call-to-action py-5 text-center text-white">
+    <div class="container">
+      <h2>Ready to Start Bidding?</h2>
+      <a routerLink="/register" class="btn btn-success btn-lg mt-3">Sign Up Now</a>
+    </div>
+  </section>
+</div>

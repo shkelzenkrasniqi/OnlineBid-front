@@ -1,0 +1,25 @@
+.hero {
+  background: url('/assets/images/hero-bg.jpg') no-repeat center center/cover;
+  color: #121111;
+}
+
+.featured-auctions .card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.featured-auctions .card:hover {
+  transform: translateY(-5px);
+}
+
+.categories .category-card {
+  border: 1px solid #ddd;
+  transition: box-shadow 0.3s ease;
+}
+
+.categories .category-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.call-to-action {
+  background-color: #007bff;
+}
